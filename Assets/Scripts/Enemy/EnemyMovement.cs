@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -11,21 +12,27 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        StartCoroutine(EnemyMove());
     }
-    private void Update()
+
+    private IEnumerator EnemyMove()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target[index].position, moveSpeed * Time.deltaTime);
-        if (transform.position == target[index].position)
+        while (true)
         {
-            if (index < target.Length-1)
+            yield return new WaitForSeconds(0.001f);
+            transform.position = Vector3.MoveTowards(transform.position, target[index].position, moveSpeed * Time.deltaTime);
+            if (transform.position == target[index].position)
             {
-                sr.flipX = true;
-                index++;
-            }
-            else
-            {
-                sr.flipX = false;
-                index = 0;
+                if (index < target.Length - 1)
+                {
+                    sr.flipX = true;
+                    index++;
+                }
+                else
+                {
+                    sr.flipX = false;
+                    index = 0;
+                }
             }
         }
     }

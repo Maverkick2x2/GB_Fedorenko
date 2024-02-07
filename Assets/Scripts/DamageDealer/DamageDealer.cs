@@ -2,18 +2,12 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     [SerializeField] private float damage;
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private HealthBar healthBar;
+
     private void OnTriggerEnter2D(Collider2D target)
     {
-        if (target.TryGetComponent(out PlayerHealth hp))
+        if (target.TryGetComponent(out IDamageable damageable))
         {
-            TakeDamage(damage);
+            damageable.ApplyDamage(damage);
         }
-    }
-    private void TakeDamage(float damage)
-    {
-        playerHealth.Health -= damage;
-        healthBar.UpdateHealthBar();
     }
 }
